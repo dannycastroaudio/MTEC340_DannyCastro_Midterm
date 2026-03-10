@@ -17,7 +17,10 @@ public class SnakeBehaviour : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         Time.fixedDeltaTime = 0.08f; //this is how "fast" the snake moves bc we're controlling
-                                     //it's speed in FixedUpdate
+                                     // open in another computer see if it feels smooth. binding to physics system (mvmt) 
+                                     //multiply the unit we have in whatever machine by time fixeddeltatime. refresh rate of monobehaviour.
+                                     //maybe even consider speed as a value itself and fixed delta time as a multiplier\
+                                     //TEST IN OTHER COMPUTER BC IT COULD BE SHITTY POOPY
 
         _bodySegments = new List<Transform>(); //initialise the list ya
         _bodySegments.Add(this.transform);
