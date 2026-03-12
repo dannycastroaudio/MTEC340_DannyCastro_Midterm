@@ -1,9 +1,11 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class SnakeBehaviour : MonoBehaviour
 {
+    public static SnakeBehaviour Instance;
     private Vector2 _direction; //moves in x and y axis. 
     [SerializeField] private KeyCode _up = KeyCode.W;
     [SerializeField] private KeyCode _down = KeyCode.S;
@@ -12,7 +14,13 @@ public class SnakeBehaviour : MonoBehaviour
     private Rigidbody2D _rb;
     private List<Transform> _bodySegments;
     public Transform segmentPrefab;
+    public Utilities.GameState GameMode;
 
+    
+    [SerializeField] private AudioSource _source;
+    [SerializeField] private AudioClip _eatFood;
+    [SerializeField] private AudioClip _snakeDie;
+    [SerializeField] private AudioClip _powerDown;
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -24,28 +32,34 @@ public class SnakeBehaviour : MonoBehaviour
 
         _bodySegments = new List<Transform>(); //initialise the list ya
         _bodySegments.Add(this.transform);
+        GameMode = Utilities.GameState.Play;
     }
 
     private void Update() //this is how you control the snake
     {
-        if (Input.GetKeyDown(_up))
+        if (GameBehaviour.Instance.GameMode == Utilities.GameState.Play)
         {
-            _direction = Vector2.up;
+            if (Input.GetKeyDown(_up))
+            {
+                _direction = Vector2.up;
+            }
+            else if (Input.GetKeyDown(_down))
+            {
+                _direction = Vector2.down;
+            }
+            else if (Input.GetKeyDown(_left))
+            {
+                _direction = Vector2.left;
+            }
+            else if (Input.GetKeyDown(_right))
+            {
+                _direction = Vector2.right;
+            }
         }
-        else if (Input.GetKeyDown(_down))
+        else if (GameBehaviour.Instance.GameMode == Utilities.GameState.Pause)
         {
-            _direction = Vector2.down;
+            _direction = Vector2.zero;
         }
-        else if (Input.GetKeyDown(_left))
-        {
-            _direction = Vector2.left;
-        }
-        else if (Input.GetKeyDown(_right))
-        {
-            _direction = Vector2.right;
-        }
-        
-        
     }
 
     private void FixedUpdate()
@@ -82,12 +96,22 @@ public class SnakeBehaviour : MonoBehaviour
         if (other.tag == "Food") 
         {
             Grow();
+            GameBehaviour.Instance.Score(); //if we trigger snake body, then initialise Score() function
+            _source.resource = _eatFood;
+            _source.Play();
         }
         
-        else if (other.tag == "GameOver")
+        else if (other.tag == "Arena Limit")
         {
-            GameOver(); 
+            GameBehaviour.Instance.GameMode = Utilities.GameState.GameOver;
+            GameOver();
+            GameBehaviour.Instance.ResetScore();
+            _source.resource = _snakeDie;
+            _source.Play();
+            SceneManager.LoadScene("GameOverScreen");
+
         }
+
         
     }
 
@@ -101,6 +125,6 @@ public class SnakeBehaviour : MonoBehaviour
         _bodySegments.Add(this.transform); //add back our main head object
         
         this.transform.position  = Vector3.zero; //reset position of snake
-        
+        _direction = Vector2.zero; //stop it from moving
     }
 }

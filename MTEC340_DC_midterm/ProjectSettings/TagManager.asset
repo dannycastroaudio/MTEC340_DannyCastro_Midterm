@@ -7,6 +7,8 @@ TagManager:
   - Snake
   - Food
   - GameOver
+  - Arena Limit
+  - Power Down
   layers:
   - Default
   - TransparentFX
