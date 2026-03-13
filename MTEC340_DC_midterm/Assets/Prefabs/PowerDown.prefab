@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 5369753471159010123}
   - component: {fileID: 19781425360202678}
   - component: {fileID: 2038566606974314910}
+  - component: {fileID: 4181756228845792787}
   m_Layer: 0
   m_Name: PowerDown
-  m_TagString: Arena Limit
+  m_TagString: Power Down
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -138,3 +139,16 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.75, y: 0.75}
   m_EdgeRadius: 0
+--- !u!114 &4181756228845792787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5568653783209859996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d60855c7668d401f96e0338ff3472c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FoodBehaviour
+  gridArea: {fileID: 0}

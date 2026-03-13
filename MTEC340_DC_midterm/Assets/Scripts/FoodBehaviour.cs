@@ -12,7 +12,7 @@ public class FoodBehaviour : MonoBehaviour
         RandomisePosition(); //when game starts the food will begin randomising position 
     }
 
-    private void RandomisePosition()
+    public void RandomisePosition()
     {
         Bounds bounds = this.gridArea.bounds; //only operate within the gridArea
         float x = Random.Range(bounds.min.x, bounds.max.x); //generate random point within x axis inside of gridArea
@@ -22,9 +22,10 @@ public class FoodBehaviour : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Snake")
+        if (other.CompareTag("Snake")) //compare tag is better. faster. vrooooomm
         {
             RandomisePosition();
+            
         }
         //if the object tagged "snake" collides with the food, then it will randomise its position again
     }
